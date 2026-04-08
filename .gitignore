@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ffmpeg binaries
+ffmpeg-bin/
+ffmpeg-master-latest-win64-gpl/
+ffmpeg.zip
+
+# claude code
+.claude/
+
+# large media files in root
+*.mp4
