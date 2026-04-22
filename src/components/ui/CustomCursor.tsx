@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
 export function CustomCursor() {
-  const [cursorType, setCursorType] = useState<"default" | "hover" | "social">("default");
+  const [cursorType, setCursorType] = useState<"default" | "hover" | "social" | "hidden">("default");
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarRect, setSidebarRect] = useState<DOMRect | null>(null);
 
@@ -19,17 +19,25 @@ export function CustomCursor() {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
       if (!isVisible) setIsVisible(true);
-    };
 
-    const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      if (!target || !target.closest) return;
 
-      // Detecta a SIDEBAR INTEIRA (container)
       const sidebarContainer = target.closest('[data-cursor="social-container"]');
       if (sidebarContainer) {
-        const rect = sidebarContainer.getBoundingClientRect();
-        setSidebarRect(rect);
-        setCursorType("social");
+        if (cursorType !== "social") {
+          const rect = sidebarContainer.getBoundingClientRect();
+          setSidebarRect(rect);
+          setCursorType("social");
+        }
+        return;
+      }
+
+      if (target.closest('[data-cursor="hide"]')) {
+        if (cursorType !== "hidden") {
+          setCursorType("hidden");
+          setSidebarRect(null);
+        }
         return;
       }
 
@@ -38,26 +46,32 @@ export function CustomCursor() {
                           target.closest("[data-cursor='hover']");
       
       if (interactive) {
-        setCursorType("hover");
+        if (cursorType !== "hover") setCursorType("hover");
       } else {
-        setCursorType("default");
+        if (cursorType !== "default") setCursorType("default");
       }
-      setSidebarRect(null);
+      if (cursorType !== "social") setSidebarRect(null);
     };
 
     document.addEventListener("mousemove", updateCursor);
-    document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       document.removeEventListener("mousemove", updateCursor);
-      document.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [mouseX, mouseY, isVisible]);
+  }, [mouseX, mouseY, isVisible, cursorType]);
 
-  if (typeof window === "undefined") return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const isSocial = cursorType === "social";
   const isHovering = cursorType === "hover";
+  const isHidden = cursorType === "hidden";
 
   return (
     <>
@@ -71,9 +85,9 @@ export function CustomCursor() {
           mixBlendMode: "difference",
         }}
         animate={{
-          width: isSocial ? 0 : (isHovering ? 100 : 60),
-          height: isSocial ? 0 : (isHovering ? 100 : 60),
-          opacity: isVisible ? 1 : 0,
+          width: isSocial || isHidden ? 0 : (isHovering ? 100 : 60),
+          height: isSocial || isHidden ? 0 : (isHovering ? 100 : 60),
+          opacity: isVisible && !isHidden ? 1 : 0,
         }}
         transition={{
           type: "spring",

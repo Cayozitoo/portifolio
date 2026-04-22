@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import { Preloader } from "@/components/ui/Preloader";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -17,8 +17,12 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import { config } from "@/lib/config";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
+  const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
   useScrollSpy(["hero", "about", "projects", "skills", "timeline", "contact"]);
+
+  const handlePreloaderComplete = useCallback(() => {
+    setIsPreloaderComplete(true);
+  }, []);
 
   const divider = (
     <div
@@ -29,16 +33,15 @@ export default function Home() {
 
   return (
     <>
-      <Preloader onComplete={() => setLoading(false)} />
-      
-      <AnimatePresence mode="wait">
-        {!loading && (
-          <motion.main 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-            className="flex min-h-[100dvh] w-full flex-col theme-text selection:bg-accent/30 selection:text-white overflow-clip relative bg-[#000] z-0"
-          >
+      {isPreloaderComplete || (
+        <Preloader onComplete={handlePreloaderComplete} />
+      )}
+
+      {isPreloaderComplete && (
+        <main
+          className="flex min-h-[100dvh] w-full flex-col theme-text selection:bg-accent/30 selection:text-white relative bg-[#000] z-10 animate-fade-in"
+          style={{ animation: 'fadeIn 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards' }}
+        >
             {/* Global Background (Solid Black for perfect transitions) */}
             <div className="fixed inset-0 z-[-1] pointer-events-none bg-black" />
 
@@ -53,7 +56,7 @@ export default function Home() {
               <About />
             </div>
 
-            <div id="projects" className="w-full flex flex-col relative z-10">
+            <div className="w-full relative z-10">
                <ProjectsBento />
             </div>
 
@@ -137,9 +140,8 @@ export default function Home() {
 
               </div>
             </footer>
-          </motion.main>
+          </main>
         )}
-      </AnimatePresence>
     </>
   );
 }

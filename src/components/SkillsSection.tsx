@@ -173,7 +173,7 @@ function TechKey({
         transition={{ delay: index * 0.03, duration: 0.4 }}
         whileHover={{ z: 20 }}
         whileTap={{ z: 0 }}
-        className="group relative flex flex-col items-center justify-center w-full max-w-[120px] aspect-square bg-neutral-900/40 border border-white/10 rounded-xl cursor-default transition-all duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_10px_20px_-5px_rgba(0,0,0,0.5)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_40px_-10px_rgba(0,0,0,0.7)]"
+        className="group relative flex flex-col items-center justify-center w-full max-w-[120px] aspect-square bg-neutral-900/40 border border-white/10 rounded-xl cursor-default transition-colors transition-shadow duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_10px_20px_-5px_rgba(0,0,0,0.5)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_40px_-10px_rgba(0,0,0,0.7)]"
       >
         <motion.div
           className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"

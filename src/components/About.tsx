@@ -2,6 +2,9 @@
 
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
+import { SpotlightRevealImage } from "@/components/ui/SpotlightRevealImage";
+
+import { FluidTrailOverlay } from "@/components/ui/FluidTrailOverlay";
 
 export function About() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -24,8 +27,11 @@ export function About() {
     <section
       id="about"
       ref={containerRef}
+      data-cursor="hide"
       className="relative min-h-[80vh] md:min-h-screen w-full px-6 md:px-12 lg:px-20 flex items-center py-20 overflow-visible"
     >
+      {/* Rastro Fluido Global da Seção */}
+      <FluidTrailOverlay />
       <motion.div
         className="absolute inset-x-0 inset-y-0 w-full h-full flex items-center pointer-events-none"
         style={{ opacity: contentOpacity, y: contentY }}
@@ -40,13 +46,17 @@ export function About() {
               filter: "blur(100px)"
             }}
           />
-          <motion.img
-            src="/avatar_3d.png"
-            alt="Cayo Fellipe 3D"
-            className="relative z-10 w-full h-full object-contain object-bottom drop-shadow-[0_15px_70px_rgba(0,0,0,0.5)] pointer-events-auto"
+          <motion.div
+            className="relative z-10 w-full h-full pointer-events-auto"
             animate={{ y: [0, -12, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          />
+          >
+            <SpotlightRevealImage
+              baseImage="/avatar_3d.png"
+              revealImage="/avatar_skeleton.png"
+              alt="Cayo Fellipe 3D"
+            />
+          </motion.div>
         </div>
 
         <div className="w-full max-w-full mx-auto relative z-10 flex justify-end">

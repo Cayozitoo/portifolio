@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react/display-name */
 import '@testing-library/jest-dom/vitest'
+import 'vitest-canvas-mock'
 import { vi } from 'vitest'
 
 // Mock IntersectionObserver
@@ -17,6 +18,16 @@ vi.stubGlobal('IntersectionObserver', IntersectionObserverMock);
 
 // Mock scrollIntoView
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
+
+// Mock requestAnimationFrame para componentes de animação
+vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => {
+  return setTimeout(() => cb(Date.now()), 16) as any;
+});
+
+// Mock cancelAnimationFrame
+vi.spyOn(window, 'cancelAnimationFrame').mockImplementation((id: any) => clearTimeout(id));
+
+
 
 // Mock framer-motion for simpler testing
 vi.mock('framer-motion', async () => {

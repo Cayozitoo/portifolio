@@ -31,19 +31,17 @@
 }
 
 
-html {
+html, body {
   background: #000;
 }
 
 body {
-  background: transparent;
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-weight: 400;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -53,6 +51,11 @@ h1, h2, h3, h4, h5, h6,
 span, p, a, div {
   font-family: var(--font-heading);
   font-weight: 550;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes gradient-shift {

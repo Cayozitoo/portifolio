@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export function Preloader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"loading" | "welcome" | "expanding" | "complete">("loading");
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,21 +32,24 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   }, [progress, phase]);
 
   const handleRevealComplete = useCallback(() => {
-    if (phase === "expanding") {
+    if (phase === "expanding" && !completed) {
+      setCompleted(true);
       setPhase("complete");
       onComplete();
     }
-  }, [phase, onComplete]);
+  }, [phase, completed, onComplete]);
 
   const marqueeText = "CREATIVE DEVELOPER • ";
   const premiumEase = [0.76, 0, 0.24, 1] as const;
 
   return (
-    <AnimatePresence>
-      {phase !== "complete" && (
+    <AnimatePresence mode="wait">
+      {!completed && (
         <motion.div
+          key="preloader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
           style={{ willChange: "opacity" }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0d0714] overflow-hidden"
         >
