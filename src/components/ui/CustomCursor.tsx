@@ -1,45 +1,48 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
-interface CustomCursorProps {
-  className?: string;
-}
-
-export function CustomCursor({ className }: CustomCursorProps) {
-  const [isHovering, setIsHovering] = useState(false);
+export function CustomCursor() {
+  const [cursorType, setCursorType] = useState<"default" | "hover" | "social">("default");
   const [isVisible, setIsVisible] = useState(false);
+  const [sidebarRect, setSidebarRect] = useState<DOMRect | null>(null);
 
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
 
-  const springConfig = { stiffness: 500, damping: 28, mass: 0.5 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
+  const cursorX = useSpring(mouseX, { stiffness: 600, damping: 30 });
+  const cursorY = useSpring(mouseY, { stiffness: 600, damping: 30 });
 
   useEffect(() => {
-    setIsVisible(true);
-
     const updateCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      if (!isVisible) setIsVisible(true);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName === "A" ||
-        target.tagName === "BUTTON" ||
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("[data-cursor='hover']")
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
+
+      // Detecta a SIDEBAR INTEIRA (container)
+      const sidebarContainer = target.closest('[data-cursor="social-container"]');
+      if (sidebarContainer) {
+        const rect = sidebarContainer.getBoundingClientRect();
+        setSidebarRect(rect);
+        setCursorType("social");
+        return;
       }
+
+      const interactive = target.tagName === "A" || target.tagName === "BUTTON" || 
+                          target.closest("a") || target.closest("button") || 
+                          target.closest("[data-cursor='hover']");
+      
+      if (interactive) {
+        setCursorType("hover");
+      } else {
+        setCursorType("default");
+      }
+      setSidebarRect(null);
     };
 
     document.addEventListener("mousemove", updateCursor);
@@ -49,58 +52,81 @@ export function CustomCursor({ className }: CustomCursorProps) {
       document.removeEventListener("mousemove", updateCursor);
       document.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [cursorX, cursorY]);
+  }, [mouseX, mouseY, isVisible]);
 
   if (typeof window === "undefined") return null;
 
+  const isSocial = cursorType === "social";
+  const isHovering = cursorType === "hover";
+
   return (
     <>
-      {/* Main cursor dot */}
       <motion.div
-        className={cn(
-          "fixed top-0 left-0 w-3 h-3 rounded-full bg-accent pointer-events-none z-[9999]",
-          "shadow-[0_0_20px_rgba(163,255,0,0.8)]",
-          className
-        )}
+        className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full"
         style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
+          x: cursorX,
+          y: cursorY,
           translateX: "-50%",
           translateY: "-50%",
-          scale: isHovering ? 1.5 : 1,
+          mixBlendMode: "difference",
         }}
-      />
-
-      {/* Trailing circle */}
-      <motion.div
-        className={cn(
-          "fixed top-0 left-0 w-8 h-8 rounded-full border border-accent/50 pointer-events-none z-[9998]",
-          "shadow-[0_0_30px_rgba(163,255,0,0.3)]"
-        )}
-        style={{
-          x: useSpring(cursorX, { stiffness: 150, damping: 20, mass: 1 }),
-          y: useSpring(cursorY, { stiffness: 150, damping: 20, mass: 1 }),
-          translateX: "-50%",
-          translateY: "-50%",
-          scale: isHovering ? 1.2 : 1,
+        animate={{
+          width: isSocial ? 0 : (isHovering ? 100 : 60),
+          height: isSocial ? 0 : (isHovering ? 100 : 60),
           opacity: isVisible ? 1 : 0,
         }}
-      />
-
-      {/* Outer glow ring */}
-      <motion.div
-        className={cn(
-          "fixed top-0 left-0 w-12 h-12 rounded-full border border-accent/20 pointer-events-none z-[9997]",
-          isHovering && "border-secondary/40 scale-110"
-        )}
-        style={{
-          x: useSpring(cursorX, { stiffness: 80, damping: 15, mass: 2 }),
-          y: useSpring(cursorY, { stiffness: 80, damping: 15, mass: 2 }),
-          translateX: "-50%",
-          translateY: "-50%",
-          opacity: isVisible ? 0.5 : 0,
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 25,
         }}
-      />
+      >
+        <div 
+          className="w-full h-full rounded-full" 
+          style={{ 
+            background: "#c2a4ff",
+            boxShadow: "0 0 20px #c2a4ff, 0 0 40px #8b5cf6, 0 0 80px rgba(139, 92, 246, 0.5)",
+          }}
+        />
+      </motion.div>
+
+      <AnimatePresence>
+        {isSocial && sidebarRect && (
+          <motion.div
+            className="fixed pointer-events-none z-[49] rounded-[30px]"
+            initial={{
+              left: sidebarRect.left + sidebarRect.width / 2,
+              top: sidebarRect.top + sidebarRect.height / 2,
+              width: 40,
+              height: 40,
+              opacity: 0,
+            }}
+            animate={{
+              left: sidebarRect.left - 16,
+              top: sidebarRect.top - 20,
+              width: sidebarRect.width + 32,
+              height: sidebarRect.height + 40,
+              opacity: 1,
+            }}
+            exit={{
+              left: sidebarRect.left + sidebarRect.width / 2,
+              top: sidebarRect.top + sidebarRect.height / 2,
+              width: 40,
+              height: 40,
+              opacity: 0,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 200,
+              damping: 25,
+            }}
+            style={{
+              background: "rgba(139, 92, 246, 0.6)",
+              boxShadow: "0 0 60px rgba(139, 92, 246, 0.4), 0 0 120px rgba(139, 92, 246, 0.15)",
+            }}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

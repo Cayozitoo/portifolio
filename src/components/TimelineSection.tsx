@@ -1,222 +1,260 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Briefcase, GraduationCap, Trophy as Award, Building, Code } from "@phosphor-icons/react";
-import { ScrollReveal } from "./ui/ScrollReveal";
-import { GlassPanel } from "./ui/GlassPanel";
+import { useRef } from "react";
+import {
+  motion,
+  MotionValue,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 
-interface TimelineItem {
-  id: number;
-  type: "work" | "education" | "award" | "personal";
-  title: string;
-  company?: string;
-  period: string;
-  description: string;
-  achievements?: string[];
-}
-
-const timeline: TimelineItem[] = [
+const timeline = [
   {
     id: 1,
-    type: "work",
+    year: "2024",
     title: "Engenheiro de Software",
     company: "ARPSIST",
-    period: "Nov 2024 - Nov 2025",
-    description: "Automação de fluxos operacionais e desenvolvimento de APIs REST corporativas com .NET 8.",
-    achievements: [
-      "Integração entre múltiplos sistemas internos legados e modernos",
-      "Diagnóstico e correção de falhas críticas em sistemas de produção",
-      "Desenvolvimento de ferramentas internas que eliminaram tarefas manuais repetitivas",
-    ],
+    description:
+      "Automatizei fluxos operacionais desenvolvendo APIs REST corporativas com .NET 8. Arquitetei integrações entre sistemas legados, diagnostiquei falhas críticas em produção e eliminei processos manuais de alto risco.",
   },
   {
     id: 2,
-    type: "personal",
-    title: "Projetos Pessoais & Estudos",
-    company: "Independente — Recife, PE",
-    period: "Mar 2024 - Nov 2024",
-    description: "Período dedicado a aprofundamento técnico e desenvolvimento de projetos full stack próprios.",
-    achievements: [
-      "Desenvolvimento do Controle de Gastos: API RESTful com ASP.NET Core + React",
-      "Estudos avançados de Docker, arquitetura em camadas e Entity Framework Core",
-      "Aplicação prática de padrões DTO, Migrations e Clean Architecture",
-    ],
+    year: "2023",
+    title: "Analista de Software",
+    company: "CPOR/R — Exército Brasileiro",
+    description:
+      "Desenvolvimento e sustentação de sistemas críticos de inteligência militar (C#, .NET, SQL Server) com foco em alta disponibilidade e precisão estratégica. Liderança na resolução de incidentes em ambientes de alta pressão e mapeamento de dados logísticos/operacionais para a 7ª Região Militar do Nordeste. Aplicação de metodologias ágeis em cenários de máxima conformidade.",
   },
   {
     id: 3,
-    type: "work",
-    title: "Analista de Software",
-    company: "CPOR/R - Exército Brasileiro",
-    period: "Mar 2023 - Mar 2024",
-    description: "Desenvolvimento e sustentação de sistemas críticos de inteligência militar.",
-    achievements: [
-      "Operação e resolução de incidentes em ambientes de alta pressão e missão crítica",
-      "Mapeamento de dados logísticos e operacionais de alta sensibilidade",
-      "Sustentação de microsserviços e bancos de dados SQL Server em produção",
-    ],
-  },
-  {
-    id: 4,
-    type: "education",
+    year: "2022",
     title: "Bacharelado em Eng. de Software",
     company: "Estácio",
-    period: "2022 - 2026",
     description:
-      "Formação focada em arquitetura de sistemas, qualidade de software, engenharia de requisitos e ciclo de vida de aplicações. Conclusão prevista para 2026.",
+      "Formação centrada em arquitetura de sistemas, engenharia de requisitos, design patterns e ciclo de vida de aplicações modernas. Conclusão prevista para 2026.",
   },
 ];
 
-// orange for work, blue for education/personal
-const typeConfig = {
-  work: {
-    icon: Briefcase,
-    accentColor: "var(--accent)",
-    glowColor: "var(--accent-glow)",
-    bgVar: "rgba(251,146,60,0.10)",
-    borderVar: "rgba(251,146,60,0.25)",
-    dotGlow: "0 0 16px var(--accent-glow)",
-  },
-  personal: {
-    icon: Code,
-    accentColor: "var(--secondary)",
-    glowColor: "var(--secondary-glow)",
-    bgVar: "rgba(96,165,250,0.08)",
-    borderVar: "rgba(96,165,250,0.20)",
-    dotGlow: "0 0 16px var(--secondary-glow)",
-  },
-  education: {
-    icon: GraduationCap,
-    accentColor: "var(--secondary)",
-    glowColor: "var(--secondary-glow)",
-    bgVar: "rgba(96,165,250,0.10)",
-    borderVar: "rgba(96,165,250,0.25)",
-    dotGlow: "0 0 16px var(--secondary-glow)",
-  },
-  award: {
-    icon: Award,
-    accentColor: "var(--accent)",
-    glowColor: "var(--accent-glow)",
-    bgVar: "rgba(251,146,60,0.08)",
-    borderVar: "rgba(251,146,60,0.20)",
-    dotGlow: "0 0 16px var(--accent-glow)",
-  },
-};
+const TAIL_H = 280;
+
+function TimelineRow({
+  item,
+  progress,
+  threshold,
+}: {
+  item: (typeof timeline)[0];
+  progress: MotionValue<number>;
+  threshold: number;
+}) {
+  const opacity = useTransform(
+    progress,
+    [threshold - 0.06, threshold, threshold + 0.06],
+    [0, 0.6, 1]
+  );
+  const y = useTransform(
+    progress,
+    [threshold - 0.06, threshold + 0.06],
+    [18, 0]
+  );
+
+  return (
+    <motion.div
+      className="relative grid items-center py-10 md:py-14"
+      style={{
+        opacity,
+        y,
+        gridTemplateColumns: "1fr auto 100px 1fr",
+      }}
+    >
+      <div className="flex flex-col pr-4 md:pr-8">
+        <h3
+          className="text-lg md:text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1.5"
+          style={{ color: "var(--text-heading)", fontFamily: "var(--font-heading)" }}
+        >
+          {item.title}
+        </h3>
+        <span className="text-xs md:text-sm font-medium" style={{ color: "var(--accent)" }}>
+          {item.company}
+        </span>
+      </div>
+
+      <div className="flex items-center justify-end pr-8 md:pr-12">
+        <span
+          className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter font-mono"
+          style={{ color: "var(--text-heading)" }}
+        >
+          {item.year}
+        </span>
+      </div>
+
+      <div />
+
+      <div className="pl-2 md:pl-4">
+        <p
+          className="text-sm md:text-base leading-relaxed"
+          style={{ color: "rgba(148,163,184,0.82)" }}
+        >
+          {item.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 export function TimelineSection() {
-  return (
-    <section className="relative py-32 w-full overflow-hidden px-4 md:px-8">
-      <div className="mx-auto w-full max-w-[1000px] relative z-10">
-        <ScrollReveal direction="up">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-4" style={{ color: "var(--text-heading)" }}>
-              Trajetória <span className="gradient-text">Profissional</span>
-            </h2>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Minha evolução através de experiências desafiadoras em ambientes críticos
-            </p>
-          </div>
-        </ScrollReveal>
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.75", "end 0.25"],
+  });
 
-        <div className="relative">
-          {/* Center line — gradient orange to blue */}
+  const smooth = useSpring(scrollYProgress, {
+    stiffness: 28,
+    damping: 20,
+    restDelta: 0.00005,
+  });
+
+  const tracerY     = useTransform(smooth, [0, 1], ["0%", "100%"]);
+  const glowOpacity = useTransform(smooth, [0, 0.03, 0.93, 1], [0, 1, 1, 0]);
+
+  const trailHeight = useTransform(smooth, [0, 1], ["0%", "100%"]);
+
+  const titleOpacity = useTransform(smooth, [0, 0.08, 0.28, 0.42], [0.40, 1, 0.45, 0.18]);
+  const titleGlow    = useTransform(smooth, [0, 0.08, 0.26], [0, 1, 0]);
+
+  const thresholds = [0.20, 0.48, 0.76];
+
+  return (
+    <section ref={sectionRef} className="relative py-28 md:py-36 w-full overflow-hidden px-4 md:px-8">
+      <div className="mx-auto w-full max-w-[1200px] relative z-10">
+
+        <motion.div
+          className="relative text-center mb-16 md:mb-24 select-none"
+          style={{ opacity: titleOpacity }}
+        >
           <div
-            className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px"
-            style={{ background: "linear-gradient(to bottom, var(--accent), var(--secondary), transparent)" }}
+            className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none"
+            style={{
+              fontFamily: "var(--font-heading)",
+              color: "rgba(194,164,255,0.30)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Minha carreira &amp;
+          </div>
+          <motion.div
+            className="text-4xl md:text-6xl lg:text-[86px] font-black tracking-tight leading-none -mt-1 md:-mt-2"
+            style={{
+              fontFamily: "var(--font-heading)",
+              color: "#ffffff",
+              letterSpacing: "-0.03em",
+              filter: useTransform(
+                titleGlow,
+                (v) =>
+                  `drop-shadow(0 0 ${Math.round(v * 36)}px rgba(194,164,255,${(v * 0.65).toFixed(2)}))`
+              ),
+            }}
+          >
+            Experiência
+          </motion.div>
+        </motion.div>
+
+        <div className="relative flex flex-col">
+
+          {timeline.map((item, i) => (
+            <TimelineRow
+              key={item.id}
+              item={item}
+              progress={smooth}
+              threshold={thresholds[i]}
+            />
+          ))}
+
+          <motion.div
+            className="absolute top-0 hidden md:block pointer-events-none"
+            style={{
+              left: "50%",
+              marginLeft: "-0.5px",
+              width: "1px",
+              height: trailHeight,
+              background:
+                "linear-gradient(to bottom, rgba(194,164,255,0.04) 0%, rgba(194,164,255,0.12) 60%, rgba(194,164,255,0.06) 100%)",
+              opacity: glowOpacity,
+            }}
           />
 
-          {timeline.map((item, index) => {
-            const config = typeConfig[item.type];
-            const Icon = config.icon;
-            const isLeft = index % 2 === 0;
+          <motion.div
+            className="absolute hidden md:block pointer-events-none"
+            style={{
+              left: "50%",
+              marginLeft: "-1px",
+              top: tracerY,
+              marginTop: `-${TAIL_H}px`,
+              width: "2px",
+              height: `${TAIL_H}px`,
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(194,164,255,0.02) 18%, rgba(194,164,255,0.10) 42%, rgba(194,164,255,0.45) 72%, rgba(194,164,255,0.88) 92%, #c2a4ff 100%)",
+              filter: "blur(0.6px)",
+              opacity: glowOpacity,
+            }}
+          />
 
-            return (
-              <ScrollReveal key={item.id} direction={isLeft ? "left" : "right"} delay={index * 0.15}>
-                <div className={`relative flex items-start gap-6 mb-12 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}>
+          <motion.div
+            className="absolute hidden md:block pointer-events-none"
+            style={{
+              left: "50%",
+              top: tracerY,
+              marginLeft: "-50px",
+              marginTop: "-50px",
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(194,164,255,0.28) 0%, rgba(168,124,255,0.08) 45%, transparent 70%)",
+              filter: "blur(8px)",
+              opacity: glowOpacity,
+            }}
+          />
 
-                  {/* Card */}
-                  <div className={`flex-1 ml-12 md:ml-0 ${isLeft ? "md:pr-12 md:text-right" : "md:pl-12 md:text-left"}`}>
-                    <GlassPanel
-                      className="group hover:border-opacity-50 transition-all duration-500 relative overflow-hidden"
-                      style={{ border: "1px solid var(--border-subtle)" }}
-                    >
-                      {/* Hover gradient */}
-                      <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
-                        style={{
-                          background: `linear-gradient(135deg, ${config.bgVar} 0%, transparent 100%)`,
-                        }}
-                      />
+          <motion.div
+            className="absolute hidden md:block pointer-events-none"
+            style={{
+              left: "50%",
+              top: tracerY,
+              marginLeft: "-85px",
+              marginTop: "-85px",
+              width: "170px",
+              height: "170px",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(168,124,255,0.10) 0%, transparent 70%)",
+              filter: "blur(20px)",
+              opacity: glowOpacity,
+            }}
+          />
 
-                      {/* Period + icon badge */}
-                      <div className={`relative z-10 flex items-center gap-3 mb-4 ${isLeft ? "md:justify-end" : "md:justify-start"}`}>
-                        <span
-                          className="text-sm font-mono uppercase tracking-widest"
-                          style={{ color: config.accentColor }}
-                        >
-                          {item.period}
-                        </span>
-                        <div
-                          className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ background: config.bgVar, border: `1px solid ${config.borderVar}` }}
-                        >
-                          <Icon size={16} weight="bold" style={{ color: config.accentColor }} />
-                        </div>
-                      </div>
+          <motion.div
+            className="absolute hidden md:block pointer-events-none rounded-full"
+            style={{
+              left: "50%",
+              top: tracerY,
+              marginLeft: "-5px",
+              marginTop: "-5px",
+              width: "10px",
+              height: "10px",
+              background:
+                "radial-gradient(circle, #ffffff 0%, #ddd0ff 50%, #c2a4ff 100%)",
+              boxShadow: [
+                "0 0 0 1.5px rgba(194,164,255,0.5)",
+                "0 0 10px 3px rgba(194,164,255,0.75)",
+                "0 0 28px 8px rgba(168,124,255,0.40)",
+                "0 0 55px 18px rgba(168,124,255,0.15)",
+              ].join(", "),
+              opacity: glowOpacity,
+            }}
+          />
 
-                      <h3 className="relative z-10 text-xl font-bold mb-1 transition-colors" style={{ color: "var(--text-heading)" }}>
-                        {item.title}
-                      </h3>
-
-                      {item.company && (
-                        <div className={`relative z-10 flex items-center gap-2 mb-4 ${isLeft ? "md:justify-end" : "md:justify-start"}`}>
-                          <Building size={13} style={{ color: "var(--text-muted)" }} />
-                          <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{item.company}</span>
-                        </div>
-                      )}
-
-                      <p className="relative z-10 text-sm leading-relaxed mb-4" style={{ color: "var(--text-secondary)" }}>
-                        {item.description}
-                      </p>
-
-                      {item.achievements && (
-                        <ul className={`relative z-10 space-y-2 ${isLeft ? "md:text-right" : "md:text-left"}`}>
-                          {item.achievements.map((achievement, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
-                              {!isLeft && (
-                                <span
-                                  className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
-                                  style={{ background: config.accentColor }}
-                                />
-                              )}
-                              <span>{achievement}</span>
-                              {isLeft && (
-                                <span
-                                  className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 md:order-first"
-                                  style={{ background: config.accentColor }}
-                                />
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </GlassPanel>
-                  </div>
-
-                  {/* Timeline dot */}
-                  <motion.div
-                    className="absolute left-4 md:left-1/2 w-4 h-4 rounded-full transform -translate-x-1/2 mt-6 z-10"
-                    style={{
-                      background: config.accentColor,
-                      boxShadow: config.dotGlow,
-                    }}
-                    whileInView={{ scale: [0, 1.4, 1] }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.15 }}
-                  />
-                </div>
-              </ScrollReveal>
-            );
-          })}
         </div>
       </div>
     </section>

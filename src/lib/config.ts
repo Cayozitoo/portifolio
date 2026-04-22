@@ -7,6 +7,7 @@ export const config = {
   social: {
     github: "https://github.com/Cayozitoo",
     linkedin: "https://www.linkedin.com/in/cayofelipe/",
+    instagram: "https://www.instagram.com/cayofellipe_/",
   },
   projects: {
     controleGastos: "https://github.com/Cayozitoo/controle-de-gastos",
