@@ -60,12 +60,13 @@ function TimelineRow({
 
   return (
     <motion.div
-      className="relative flex flex-col md:grid md:grid-cols-[1fr_auto_100px_1fr] items-start md:items-center py-8 md:py-14 gap-2 md:gap-0 border-b border-white/5 md:border-none"
+      className="relative flex flex-col md:grid md:grid-cols-[1fr_auto_100px_1fr] items-start md:items-center py-6 md:py-14 px-6 md:px-0 gap-4 md:gap-0 bg-white/5 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none rounded-[2rem] md:rounded-none border border-white/10 md:border-transparent mb-8 md:mb-0 ml-8 md:ml-0 shadow-2xl md:shadow-none"
       style={{
         opacity,
         y,
       }}
     >
+      <div className="absolute -left-[38px] md:hidden w-3 h-3 rounded-full bg-[#a855f7] top-8 shadow-[0_0_15px_rgba(168,85,247,0.8)] border border-white/20" />
       <div className="flex flex-col md:pr-8">
         <h3
           className="text-xl md:text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1"
@@ -160,6 +161,9 @@ export function TimelineSection() {
         </motion.div>
 
         <div className="relative flex flex-col">
+
+          {/* Linha vertical brilhante para mobile */}
+          <div className="absolute left-3.5 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-purple-500/30 to-transparent md:hidden" />
 
           {timeline.map((item, i) => (
             <TimelineRow

@@ -97,7 +97,7 @@ export function ProjectsBento() {
         </div>
 
         <motion.div
-          className="flex flex-col lg:flex-row h-full z-10 lg:w-[220vw] lg:will-change-transform lg:[transform:translateX(var(--xVal))] pt-32 md:pt-40 lg:pt-[35vh]"
+          className="flex flex-col lg:flex-row h-full z-10 lg:w-[220vw] lg:will-change-transform lg:[transform:translateX(var(--xVal))] pt-32 md:pt-40 lg:pt-[35vh] px-4 lg:px-0"
           style={{ "--xVal": xPercent } as React.CSSProperties}
         >
           {projects.map((proj, i) => (
@@ -114,22 +114,27 @@ export function ProjectsBento() {
 
 function ProjectSlide({ project, index }: { project: ProjectCard, index: number }) {
   return (
-    <div className="w-full lg:w-[30vw] h-auto lg:h-[60vh] shrink-0 flex flex-col p-8 md:p-12 lg:p-16 relative border-b lg:border-b-0 border-white/10 lg:border-r border-white/10 group hover:bg-white/[0.02] transition-colors duration-500">
-      <div className="flex justify-between items-start w-full mb-10 lg:mb-12">
-          <span className="text-5xl md:text-6xl lg:text-[50px] font-black leading-none text-white tracking-tighter opacity-100 italic group-hover:text-[#a855f7] transition-colors duration-500">
+    <div className="w-full lg:w-[30vw] h-auto lg:h-[60vh] shrink-0 flex flex-col p-8 md:p-12 lg:p-16 relative border-white/10 lg:border-r group hover:bg-white/[0.02] transition-colors duration-500 overflow-hidden rounded-[2rem] lg:rounded-none bg-neutral-900/40 lg:bg-transparent backdrop-blur-2xl lg:backdrop-blur-none border lg:border-y-0 lg:border-l-0 mb-6 lg:mb-0 shadow-2xl lg:shadow-none">
+      
+      <span className="absolute -bottom-10 -right-10 text-[200px] lg:text-[240px] font-black text-white/[0.03] lg:text-white/[0.02] leading-none pointer-events-none select-none z-0">
+        0{index + 1}
+      </span>
+
+      <div className="flex justify-between items-start w-full mb-10 lg:mb-12 relative z-10">
+          <span className="text-5xl md:text-6xl lg:text-[50px] font-black leading-none text-white tracking-tighter opacity-100 italic group-hover:text-[#a855f7] transition-colors duration-500 hidden lg:block">
             0{index + 1}
           </span>
-          <div className="flex flex-col items-end text-right mt-1 md:mt-2">
-             <h3 className="text-xl md:text-2xl lg:text-2xl font-normal text-white mb-1 group-hover:translate-x-[-10px] transition-transform duration-500">
+          <div className="flex flex-col items-start lg:items-end text-left lg:text-right mt-1 md:mt-2 w-full lg:w-auto">
+             <h3 className="text-2xl md:text-3xl lg:text-2xl font-normal text-white mb-2 lg:mb-1 group-hover:translate-x-[-10px] transition-transform duration-500">
                {project.title}
              </h3>
-             <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/40 font-light">
+             <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] text-white/50 font-light">
                {project.category}
              </span>
           </div>
       </div>
 
-      <div className="flex flex-col gap-4 lg:gap-6 flex-1 justify-center">
+      <div className="flex flex-col gap-4 lg:gap-6 flex-1 justify-center relative z-10">
           <div className="flex flex-col gap-3">
               <h4 className="text-white/40 text-[9px] md:text-[10px] font-normal uppercase tracking-[0.3em] font-mono">
                 Tools and features
@@ -145,7 +150,7 @@ function ProjectSlide({ project, index }: { project: ProjectCard, index: number 
           href={project.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 self-end w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#a855f7]/20 hover:border-[#a855f7]/50 transition-all duration-500 group"
+          className="mt-12 self-start lg:self-end w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#a855f7]/40 hover:border-[#a855f7]/60 transition-all duration-500 group relative z-10"
         >
           <ArrowUpRight size={24} className="text-white group-hover:scale-110 transition-transform" />
         </a>

@@ -173,7 +173,7 @@ function TechKey({
         transition={{ delay: index * 0.03, duration: 0.4 }}
         whileHover={{ z: 20 }}
         whileTap={{ z: 0 }}
-        className="group relative flex flex-col items-center justify-center w-full max-w-[120px] aspect-square bg-neutral-900/40 border border-white/10 rounded-xl cursor-default transition-colors transition-shadow duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_10px_20px_-5px_rgba(0,0,0,0.5)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_40px_-10px_rgba(0,0,0,0.7)]"
+        className="group relative flex flex-row md:flex-col items-center justify-center w-auto md:w-full md:max-w-[120px] px-5 md:px-0 h-12 md:h-auto md:aspect-square bg-white/5 md:bg-neutral-900/40 backdrop-blur-md md:backdrop-blur-none border border-white/10 rounded-full md:rounded-xl cursor-default transition-colors transition-shadow duration-300 shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_10px_20px_-5px_rgba(0,0,0,0.5)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_20px_40px_-10px_rgba(0,0,0,0.7)]"
       >
         <motion.div
           className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
@@ -186,13 +186,13 @@ function TechKey({
           }}
         />
 
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-black/40 rounded-b-xl transform translate-y-[1px]" />
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-black/40 rounded-b-full md:rounded-b-xl transform translate-y-[1px]" />
 
-        <div className="flex flex-col items-center justify-center gap-2 relative z-10 text-center" style={{ transform: "translateZ(20px)" }}>
-          <div className="p-2.5 bg-white/0 rounded-lg group-hover:bg-[#a855f7]/20 transition-colors duration-300">
-            <Icon className="w-8 h-8 text-white group-hover:text-[#a855f7] transition-all duration-300" />
+        <div className="flex flex-row md:flex-col items-center justify-center gap-2 relative z-10 text-center" style={{ transform: "translateZ(20px)" }}>
+          <div className="p-0 md:p-2.5 bg-white/0 rounded-lg group-hover:bg-[#a855f7]/20 transition-colors duration-300">
+            <Icon className="w-5 h-5 md:w-8 md:h-8 text-white group-hover:text-[#a855f7] transition-all duration-300" />
           </div>
-          <span className="text-[10px] font-mono text-white/50 group-hover:text-white transition-colors duration-300 uppercase tracking-wider leading-tight max-w-full break-words">
+          <span className="text-[11px] md:text-[10px] font-mono text-white/60 md:text-white/50 group-hover:text-white transition-colors duration-300 uppercase tracking-wider leading-tight max-w-full break-words">
             {name}
           </span>
         </div>
@@ -228,7 +228,7 @@ export function SkillsSection() {
             Stack <br /><span className="text-[#a855f7]">Técnica</span>
           </h2>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 w-full max-w-2xl">
+          <div className="flex flex-wrap md:grid md:grid-cols-5 gap-3 md:gap-2 w-full max-w-2xl">
             {tools.map((tool, i) => (
               <TechKey
                 key={tool.name}

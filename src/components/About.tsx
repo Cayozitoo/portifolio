@@ -60,7 +60,7 @@ export function About() {
         </div>
 
         <div className="w-full max-w-full mx-auto relative z-10 flex justify-end">
-          <div className="w-full md:w-1/2 lg:w-[48%] flex flex-col justify-center mt-64 md:mt-0 pb-10 md:pb-0 z-20 pointer-events-auto pr-4 md:pr-12">
+          <div className="w-full md:w-1/2 lg:w-[48%] flex flex-col justify-center mt-[45vh] md:mt-0 p-8 md:p-0 z-20 pointer-events-auto rounded-[2rem] md:rounded-none bg-white/5 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none border border-white/10 md:border-transparent shadow-2xl md:shadow-none relative">
             <h4
               className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase mb-6"
               style={{ color: "var(--accent)" }}

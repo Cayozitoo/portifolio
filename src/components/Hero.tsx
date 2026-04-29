@@ -57,9 +57,9 @@ export function Hero() {
         className="absolute inset-0 z-10 flex items-center justify-center px-6 md:px-12 pointer-events-none overflow-visible"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        <div className="w-full max-w-[1600px] flex flex-col md:flex-row items-center justify-between gap-8 md:gap-20">
+        <div className="w-full max-w-[1600px] flex flex-col md:flex-row items-center justify-between gap-4 md:gap-20 mt-[35vh] md:mt-0">
           
-          <div className="flex flex-col items-start md:-ml-12 lg:-ml-24">
+          <div className="flex flex-col items-start md:-ml-12 lg:-ml-24 bg-white/5 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none border border-white/10 md:border-transparent p-6 md:p-0 rounded-[2.5rem] md:rounded-none w-full md:w-auto shadow-2xl md:shadow-none relative z-30 pointer-events-auto">
             <KineticText 
               showDetails={false}
               main={config.personal.name.split(" ")[0].toUpperCase()}
@@ -67,7 +67,7 @@ export function Hero() {
             />
           </div>
 
-          <div className="flex flex-col items-start md:-mr-24 lg:-mr-48">
+          <div className="flex flex-col items-start md:-mr-24 lg:-mr-48 bg-white/5 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none border border-white/10 md:border-transparent p-6 md:p-0 rounded-[2.5rem] md:rounded-none w-full md:w-auto shadow-2xl md:shadow-none relative z-30 pointer-events-auto">
             <KineticText 
               main="FULLSTACK"
               sub="ENGINEER"
