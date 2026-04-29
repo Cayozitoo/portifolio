@@ -77,7 +77,7 @@ export function KineticText({ main, sub, className = "", showDetails = true }: K
           style={{ x: echoX, y: echoY }}
           className="absolute inset-0 z-0 opacity-10 blur-[1px] pointer-events-none select-none will-change-transform"
         >
-          <h1 className="text-6xl md:text-8xl lg:text-[130px] font-black tracking-tighter leading-[0.9] text-purple-500 italic">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[130px] font-black tracking-tighter leading-[0.9] text-purple-500 italic">
             {main} <br /> {sub}
           </h1>
         </motion.div>
@@ -86,7 +86,7 @@ export function KineticText({ main, sub, className = "", showDetails = true }: K
           variants={containerVariants}
           initial="initial"
           animate="animate"
-          className="relative z-10 text-6xl md:text-8xl lg:text-[130px] font-black tracking-tighter leading-[0.9] text-white will-change-transform"
+          className="relative z-10 text-5xl sm:text-6xl md:text-8xl lg:text-[130px] font-black tracking-tighter leading-[0.9] text-white will-change-transform"
         >
           <div className="flex flex-wrap">
             {main.split("").map((char, i) => (

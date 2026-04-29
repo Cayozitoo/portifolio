@@ -25,6 +25,7 @@ describe('SpotlightRevealImage', () => {
       <SpotlightRevealImage
         baseImage={mockBaseImage}
         revealImage={mockRevealImage}
+        alt="Avatar mock"
       />
     );
 
@@ -37,6 +38,7 @@ describe('SpotlightRevealImage', () => {
       <SpotlightRevealImage
         baseImage={mockBaseImage}
         revealImage={mockRevealImage}
+        alt="Avatar mock"
         className="custom-spotlight-class"
       />
     );
@@ -50,6 +52,7 @@ describe('SpotlightRevealImage', () => {
       <SpotlightRevealImage
         baseImage={mockBaseImage}
         revealImage={mockRevealImage}
+        alt="Avatar mock"
       />
     );
 
@@ -62,6 +65,7 @@ describe('SpotlightRevealImage', () => {
       <SpotlightRevealImage
         baseImage={mockBaseImage}
         revealImage={mockRevealImage}
+        alt="Avatar mock"
       />
     );
 
@@ -76,6 +80,7 @@ describe('SpotlightRevealImage', () => {
       <SpotlightRevealImage
         baseImage={mockBaseImage}
         revealImage={mockRevealImage}
+        alt="Avatar mock"
       />
     );
 
@@ -89,6 +94,7 @@ describe('SpotlightRevealImage', () => {
         <SpotlightRevealImage
           baseImage={mockBaseImage}
           revealImage={mockRevealImage}
+          alt="Avatar mock"
         />
       );
 
@@ -103,6 +109,7 @@ describe('SpotlightRevealImage', () => {
         <SpotlightRevealImage
           baseImage={mockBaseImage}
           revealImage={mockRevealImage}
+          alt="Avatar mock"
         />
       );
 

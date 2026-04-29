@@ -224,11 +224,11 @@ export function SkillsSection() {
       <div className="w-full px-6 md:px-12 lg:px-20 lg:pl-[10%] relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24">
         <div className="lg:w-1/2 flex flex-col gap-8 relative z-10 pointer-events-auto">
 
-          <h2 className="text-5xl md:text-7xl font-normal tracking-tight text-white leading-none mb-6">
+          <h2 className="text-4xl md:text-7xl font-normal tracking-tight text-white leading-none mb-6">
             Stack <br /><span className="text-[#a855f7]">Técnica</span>
           </h2>
 
-          <div className="grid grid-cols-5 gap-1.5 w-full max-w-2xl">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 w-full max-w-2xl">
             {tools.map((tool, i) => (
               <TechKey
                 key={tool.name}

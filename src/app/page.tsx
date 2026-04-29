@@ -75,7 +75,7 @@ export default function Home() {
 
             <footer
               id="contact"
-              className="w-full py-24 md:py-32 mt-auto border-t border-white/5 relative z-10 bg-black"
+              className="w-full py-24 md:py-32 px-6 md:px-8 mt-auto border-t border-white/5 relative z-10 bg-black"
             >
               <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 place-content-between">
 

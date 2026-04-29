@@ -37,7 +37,7 @@ export function About() {
         style={{ opacity: contentOpacity, y: contentY }}
       >
         <div
-          className="absolute bottom-[-8%] left-[-25%] md:left-[-10%] lg:left-[10%] w-[250%] md:w-[85%] lg:w-[45%] h-full flex justify-center md:justify-start items-end pointer-events-none z-0 overflow-visible"
+          className="absolute bottom-[0%] md:bottom-[-8%] left-[-25%] md:left-[-10%] lg:left-[10%] w-[150%] md:w-[85%] lg:w-[45%] h-full flex justify-center md:justify-start items-end pointer-events-none z-0 overflow-visible"
         >
           <div 
             className="absolute inset-x-0 bottom-[-10%] w-full h-full opacity-15 pointer-events-none"
@@ -68,7 +68,7 @@ export function About() {
               Sobre Mim
             </h4>
 
-            <p className="text-[32px] md:text-[42px] lg:text-[54px] leading-[1.1] tracking-tight font-bold text-white/95">
+            <p className="text-2xl md:text-[42px] lg:text-[54px] leading-[1.1] tracking-tight font-bold text-white/95">
               Sou um Engenheiro de Software com foco em desenvolver <span className="text-white">APIs e integrações</span> sólidas.
             </p>
           </div>

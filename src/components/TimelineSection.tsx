@@ -60,37 +60,36 @@ function TimelineRow({
 
   return (
     <motion.div
-      className="relative grid items-center py-10 md:py-14"
+      className="relative flex flex-col md:grid md:grid-cols-[1fr_auto_100px_1fr] items-start md:items-center py-8 md:py-14 gap-2 md:gap-0 border-b border-white/5 md:border-none"
       style={{
         opacity,
         y,
-        gridTemplateColumns: "1fr auto 100px 1fr",
       }}
     >
-      <div className="flex flex-col pr-4 md:pr-8">
+      <div className="flex flex-col md:pr-8">
         <h3
-          className="text-lg md:text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1.5"
+          className="text-xl md:text-xl lg:text-2xl font-bold tracking-tight leading-tight mb-1"
           style={{ color: "var(--text-heading)", fontFamily: "var(--font-heading)" }}
         >
           {item.title}
         </h3>
-        <span className="text-xs md:text-sm font-medium" style={{ color: "var(--accent)" }}>
+        <span className="text-sm font-medium mb-2 md:mb-0" style={{ color: "var(--accent)" }}>
           {item.company}
         </span>
       </div>
 
-      <div className="flex items-center justify-end pr-8 md:pr-12">
+      <div className="flex items-center justify-start md:justify-end md:pr-12">
         <span
-          className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter font-mono"
+          className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter font-mono mb-4 md:mb-0"
           style={{ color: "var(--text-heading)" }}
         >
           {item.year}
         </span>
       </div>
 
-      <div />
+      <div className="hidden md:block" />
 
-      <div className="pl-2 md:pl-4">
+      <div className="md:pl-4">
         <p
           className="text-sm md:text-base leading-relaxed"
           style={{ color: "rgba(148,163,184,0.82)" }}

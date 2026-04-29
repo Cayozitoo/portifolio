@@ -91,13 +91,13 @@ export function ProjectsBento() {
         />
 
         <div className="absolute top-0 left-0 w-full z-20 px-4 md:px-12 py-16 md:py-20">
-            <h2 className="text-5xl md:text-7xl lg:text-[90px] font-normal tracking-tight text-white leading-none">
+            <h2 className="text-4xl md:text-7xl lg:text-[90px] font-normal tracking-tight text-white leading-none">
               Meus <span className="text-[#a855f7]">Trabalhos</span>
             </h2>
         </div>
 
         <motion.div
-          className="flex flex-col lg:flex-row h-full z-10 lg:w-[220vw] lg:will-change-transform lg:[transform:translateX(var(--xVal))] pt-[30vh] md:pt-[35vh]"
+          className="flex flex-col lg:flex-row h-full z-10 lg:w-[220vw] lg:will-change-transform lg:[transform:translateX(var(--xVal))] pt-32 md:pt-40 lg:pt-[35vh]"
           style={{ "--xVal": xPercent } as React.CSSProperties}
         >
           {projects.map((proj, i) => (

@@ -49,7 +49,7 @@ export function Hero() {
           }}
           src="/hero_avatar.png"
           alt="Cayo Fellipe Mascote"
-          className="h-[75vh] md:h-[85vh] w-auto object-contain translate-y-[10%]"
+          className="h-[55vh] md:h-[85vh] w-auto object-contain translate-y-[15%] md:translate-y-[10%]"
         />
       </motion.div>
 
@@ -57,7 +57,7 @@ export function Hero() {
         className="absolute inset-0 z-10 flex items-center justify-center px-6 md:px-12 pointer-events-none overflow-visible"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        <div className="w-full max-w-[1600px] flex flex-col md:flex-row items-center justify-between gap-20">
+        <div className="w-full max-w-[1600px] flex flex-col md:flex-row items-center justify-between gap-8 md:gap-20">
           
           <div className="flex flex-col items-start md:-ml-12 lg:-ml-24">
             <KineticText 
